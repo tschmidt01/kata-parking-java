@@ -1,25 +1,30 @@
-package victor.kata.parking;
-
-import org.apache.commons.lang3.NotImplementedException;
+package victor.kata.parking
 
 /**
  * Builder class to get a parking instance
  */
-public class ParkingBuilder {
+class ParkingBuilder {
 
-    public ParkingBuilder withSquareSize(final int size) {
-        throw new NotImplementedException("TODO");
+    private var size: Int? = null
+    private val pedestrianExits: MutableSet<Int> = mutableSetOf()
+    private val disabledBays: MutableSet<Int> = mutableSetOf()
+
+    fun withSquareSize(size: Int): ParkingBuilder {
+        this.size = size
+        return this
     }
 
-    public ParkingBuilder withPedestrianExit(final int pedestrianExitIndex) {
-        throw new NotImplementedException("TODO");
+    fun withPedestrianExit(pedestrianExitIndex: Int): ParkingBuilder {
+        pedestrianExits += pedestrianExitIndex
+        return this
     }
 
-    public ParkingBuilder withDisabledBay(final int disabledBayIndex) {
-        throw new NotImplementedException("TODO");
+    fun withDisabledBay(disabledBayIndex: Int): ParkingBuilder {
+        disabledBays += disabledBayIndex
+        return this
     }
 
-    public Parking build() {
-        throw new NotImplementedException("TODO");
+    fun build(): Parking {
+        return Parking(requireNotNull(size), pedestrianExits, disabledBays)
     }
 }

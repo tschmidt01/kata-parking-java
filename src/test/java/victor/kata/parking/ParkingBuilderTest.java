@@ -12,7 +12,7 @@ public class ParkingBuilderTest {
         assertEquals(16, parking.getAvailableBays());
     }
 
-    @Test
+   @Test
     public void testBuildParkingWithPedestrianExit() {
         final Parking parking = new ParkingBuilder()
             .withSquareSize(3)
@@ -20,7 +20,6 @@ public class ParkingBuilderTest {
             .build();
         assertEquals(8, parking.getAvailableBays());
     }
-
     @Test
     public void testBuildParkingWithDisabledSlot() {
         final Parking parking = new ParkingBuilder().withSquareSize(2).withDisabledBay(2).build();
@@ -40,5 +39,4 @@ public class ParkingBuilderTest {
             .build();
         assertEquals(97, parking.getAvailableBays());
     }
-
 }

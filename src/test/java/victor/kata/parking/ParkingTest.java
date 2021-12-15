@@ -12,12 +12,12 @@ public class ParkingTest {
     @Before
     public void setUp() {
         parking = new ParkingBuilder()
-            .withSquareSize(5)
-            .withPedestrianExit(FIRST_PEDESTRIAN_EXIT_INDEX)
-            .withPedestrianExit(12)
-            .withDisabledBay(5)
-            .withDisabledBay(10)
-            .build();
+                .withSquareSize(5)
+                .withPedestrianExit(FIRST_PEDESTRIAN_EXIT_INDEX)
+                .withPedestrianExit(12)
+                .withDisabledBay(5)
+                .withDisabledBay(10)
+                .build();
     }
 
     @Test
@@ -26,9 +26,32 @@ public class ParkingTest {
     }
 
     @Test
-    public void testParkCarVehiculeTypeC() {
+    public void testParkCarVehiculeTypeC_1() {
+        // ped exit: 8, 12
         assertEquals(7, parking.parkCar('C'));
+    }
+
+    @Test
+    public void testParkCarVehiculeTypeC_2() {
+        assertEquals(0, new ParkingBuilder().withSquareSize(5).build().parkCar('C'));
+    }
+
+    @Test
+    public void testParkCarVehiculeTypeC_3() {
+        parking.parkCar('C');
         assertEquals(22, parking.getAvailableBays());
+    }
+
+    @Test
+    public void testParkCarVehiculeTypeC_4() {
+        Parking parking = new ParkingBuilder().withSquareSize(5).build();
+        parking.parkCar('C');
+        assertEquals(1, parking.parkCar('C'));
+    }
+
+    @Test
+    public void testParkCarVehiculeTypeC_5() {
+        parking.parkCar('C');
         assertTrue(parking.unparkCar(7));
     }
 
@@ -48,6 +71,25 @@ public class ParkingTest {
     }
 
     @Test
+    public void testParkCarFiveVehicules() {
+        assertEquals(7, parking.parkCar('C'));
+        assertEquals(22, parking.getAvailableBays());
+
+        assertEquals(9, parking.parkCar('M'));
+        assertEquals(21, parking.getAvailableBays());
+
+        assertEquals(11, parking.parkCar('M'));
+        assertEquals(20, parking.getAvailableBays());
+
+        assertEquals(13, parking.parkCar('M'));
+        assertEquals(19, parking.getAvailableBays());
+
+        assertEquals(6, parking.parkCar('M'));
+        assertEquals(18, parking.getAvailableBays());
+    }
+
+
+    @Test
     public void testParkCarDisabled() {
         assertEquals(10, parking.parkCar('D'));
         assertEquals(22, parking.getAvailableBays());
@@ -55,8 +97,8 @@ public class ParkingTest {
         assertEquals(5, parking.parkCar('D'));
         assertEquals(21, parking.getAvailableBays());
 
-        assertEquals(-1, parking.parkCar('D'));
-        assertEquals(21, parking.getAvailableBays());
+        assertEquals(7, parking.parkCar('D'));
+        assertEquals(20, parking.getAvailableBays());
     }
 
     @Test
@@ -74,16 +116,14 @@ public class ParkingTest {
         assertFalse(parking.unparkCar(FIRST_PEDESTRIAN_EXIT_INDEX));
     }
 
-
-
     @Test
     public void testToString() {
         assertEquals(
-             "UUUUU\n" +
-                     "U=UU@\n" +
-                     "@U=UU\n" +
-                     "UUUUU\n" +
-                     "UUUUU", parking.toString());
+                "UUUUU\n" +
+                        "U=UU@\n" +
+                        "@U=UU\n" +
+                        "UUUUU\n" +
+                        "UUUUU", parking.toString());
     }
 
     @Test
@@ -112,16 +152,16 @@ public class ParkingTest {
         assertEquals("UUUUU\nC=CUD\nDM=MU\nUUUUU\nUUUUU", parking.toString());
         assertEquals(17, parking.getAvailableBays());
 
-        assertEquals(-1, parking.parkCar('D'));
-        assertEquals("UUUUU\nC=CUD\nDM=MU\nUUUUU\nUUUUU", parking.toString());
-        assertEquals(17, parking.getAvailableBays());
+        assertEquals(6, parking.parkCar('D'));
+        assertEquals("UUUUU\nC=CDD\nDM=MU\nUUUUU\nUUUUU", parking.toString());
+        assertEquals(16, parking.getAvailableBays());
 
         assertFalse(parking.unparkCar(3));
-        assertEquals("UUUUU\nC=CUD\nDM=MU\nUUUUU\nUUUUU", parking.toString());
-        assertEquals(17, parking.getAvailableBays());
+        assertEquals("UUUUU\nC=CDD\nDM=MU\nUUUUU\nUUUUU", parking.toString());
+        assertEquals(16, parking.getAvailableBays());
 
         assertTrue(parking.unparkCar(13));
-        assertEquals("UUUUU\nC=CUD\nDM=UU\nUUUUU\nUUUUU", parking.toString());
-        assertEquals(18, parking.getAvailableBays());
+        assertEquals("UUUUU\nC=CDD\nDM=UU\nUUUUU\nUUUUU", parking.toString());
+        assertEquals(17, parking.getAvailableBays());
     }
 }
